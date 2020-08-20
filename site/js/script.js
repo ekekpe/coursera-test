@@ -1,28 +1,39 @@
-// // function makeMultiplier(multiplier) {
-// //     var myFunFunc = function (x) {
-// //       return multiplier * x;
-// //     };
-    
-// //     return myFunFunc;
-// //   }
-  
-// //   var operation = makeMultiplier(10);
-// //   console.log(operation(10));
+$(function () {
 
-// // function test() {
-// //     console.log("Hello Coursera!");
-// // }
+    $("#navbarToggle").blur(function (event) {
+        var screenWidth = window.innerWidth;
+        if (screenWidth < 768) {
+            $("#collapsable-nav").collapse('hide');
+        }
+    });
+});
 
-// // test(); 
+(function (global) {
 
+    var dc = {};
 
-// var literalCircle = {
-//   radius: 10,
+    var homeHtml = "snippets/home-snippet.html";
 
-//   getArea: function () {
-//     console.log(this);
-//     return Math.PI * Math.pow(this.radius, 2);
-// }
-// };
+    var insertHtml = function (selector, html) {
+        var targetElem = document.querySelector(selector);
+        targertElem.innerHTML = html;
+    };
 
-// console.log(literalCircle.getArea());
+    var showLoading = function (selector) {
+        var html = "<div class='text-center'>";
+        html += "<img src='images/ajax-loader.gif'></div>";
+        insertHtml(selector, html);
+    };
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+
+        showLoading("#main-content");
+        $ajaxUtils.sendGetRequest(
+            homeHtml, function (responseText) {
+                document.querySelector("#main-content").innerHTML = responseText;
+            },
+        false);
+    });
+
+    global.$dc = dc;
+})(window);
